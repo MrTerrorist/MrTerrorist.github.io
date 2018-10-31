@@ -4,7 +4,10 @@ title: "Java Object"
 date: 2018-10-21
 excerpt: "java.lang.Object"
 tags: [Java, Object]
+comments: false
 ---
+
+
 # Java Object
 [TOC]
 > https://www.cnblogs.com/lwbqqyumidi/p/3693015.html  
