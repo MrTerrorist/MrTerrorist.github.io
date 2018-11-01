@@ -219,7 +219,8 @@ private native String getName0();
 ### 9、notify()
 &emsp;&emsp;这个方法用来唤醒一个在当前对象监视器（monitor）里的正等待唤醒的线程，而且notify()只能在本身拥有对应对象监视器的对象上去调用，获得对象本身的监视器有三种途径：从执行该对象的同步方法中获取、从执行该对象的同步块中获取、从执行类的静态同步方法中获取。  
 &emsp;&emsp;从源码分析，我们依然还是在Object.c中可以找到它的定义，同样在JNINativeMethod数组里，它的函数指针指向JVM_MonitorNotify。  
-&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notify()方法：
+&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notify()方法：   
+
 ~~~ 
 // Consider: a not-uncommon synchronization bug is to use notify() when
 // notifyAll() is more appropriate, potentially resulting in stranded
@@ -243,10 +244,11 @@ void ObjectMonitor::notify(TRAPS) {
   INotify(THREAD);
   OM_PERFDATA_OP(Notifications, inc(1));
 }
-~~~ 
+~~~  
+
 ### 10、notifyAll()
 &emsp;&emsp;与notify()方法类似，notifyAll()方法也是唤醒线程，但它唤醒的是全部等待唤醒的线程。
-&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notifyAll()方法：
+&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notifyAll()方法：  
 ~~~ 
 // The current implementation of notifyAll() transfers the waiters one-at-a-time
 // from the waitset to the EntryList. This could be done more efficiently with a
