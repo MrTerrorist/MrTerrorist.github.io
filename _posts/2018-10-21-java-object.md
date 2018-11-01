@@ -146,11 +146,13 @@ intptr_t hash() const {
 ~~~ 
 &emsp;&emsp;从整体来看，hashCode就是根据对象的地址或者字符串或者数字算出来的int类型的数值。
 ### 6、equals(Object obj)
-~~~ 
+
+~~~ java
 public boolean equals(Object obj) {
     return (this == obj);
 }
 ~~~ 
+
 &emsp;&emsp;equals()方法用于比较其他对象与本对象是否等同，它适用于非空对象之间的对比。从它的注释来看，它拥有以下这几个特性（自反性、对称性、传递性、一致性、非空性）：  
 - It is reflexive: for any non-null reference value x, x.equals(x) should return true.
 - It is symmetric: for any non-null reference values x and y, x.equals(y) should return true if and only if y.equals(x) returns true.
