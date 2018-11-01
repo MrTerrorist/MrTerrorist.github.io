@@ -19,7 +19,7 @@ https://www.cnblogs.com/lwbqqyumidi/p/3804883.html
 
 ## 一、概览
 
-~~~ 
+~~~ java
 package java.lang;
 import jdk.internal.HotSpotIntrinsicCandidate;
 public class Object {
@@ -87,7 +87,7 @@ public class Object {
 &emsp;&emsp;修饰符native表明了这是个本地方法，由于JAVA是无法直接访问到操作系统底层（如系统硬件等) 的，当代码中需要访问到底层时，就需要用native方法来扩展了，它能够通过JNI接口调用其他语言来实现对底层的访问。Java中，用native关键字修饰的函数表明该方法的实现并不是在Java中去完成，而是由C/C++去完成，并被编译成了.dll，由Java去调用。方法的具体实现体在dll文件中，对于不同平台，其具体实现应该有所不同。用native修饰，即表示操作系统，需要提供此方法，Java本身需要使用。具体到registerNatives()方法本身，其主要作用是将C/C++中的方法映射到Java中的native方法，实现方法命名的解耦。  
 &emsp;&emsp;通常，为了让JVM找到你的本地函数，它们必须以某种方式命名。通过使用registerNatives（或者说，JNI函数RegisterNatives），你可以任意指定你的C函数。  
 &emsp;&emsp;相关Object.c源码：  
-~~~ 
+~~~ c++
 static JNINativeMethod methods[] = {
     {"hashCode", "()I", (void *)&JVM_IHashCode},
     {"wait", "(J)V", (void *)&JVM_MonitorWait},
@@ -113,6 +113,7 @@ Java_java_lang_Object_getClass(JNIEnv *env, jobject this)
     }
 }
 ~~~ 
+
 &emsp;&emsp;对于列出的函数，关联的C函数在该表中列出，这比编写一堆转发函数更方便。请注意，`Object.getClass`它不在列表中，它仍然会被“标准”名称调用`Java_java_lang_Object_getClass`。  
 ### 2、@HotSpotIntrinsicCandidate
 &emsp;&emsp;这个注解是HotSpot虚拟机特有的注解，使用了该注解的方法，它表示该方法在HotSpot虚拟机内部可能会自己来编写内部实现，用以提高性能，但是它并不是必须要自己实现的，它只是表示了一种可能。这个一般开发中用不到，只有特别场景下，对于性能要求比较苛刻的情况下，才需要对底部的代码重写。
@@ -121,7 +122,7 @@ Java_java_lang_Object_getClass(JNIEnv *env, jobject this)
 ### 4、getClass()
 &emsp;&emsp;与registerNatives()一样，getClass()也是一个native方法，自然我们还得从Object.c中去寻找痕迹。 
 &emsp;&emsp;它的实现在jni.cpp中：
-~~~ 
+~~~ c++
 JNI_ENTRY(jclass, jni_GetObjectClass(JNIEnv *env, jobject obj))
   JNIWrapper("GetObjectClass");
 
@@ -138,7 +139,7 @@ JNI_END
 &emsp;&emsp;可以看到JVM返回了对象运行时的类。GetClass()是一个类的实例所具备的方法，它是在运行时才确定的，所以若此时实例终止了，则会抛出空指针异常。
 ### 5、hashCode()
 &emsp;&emsp;它定义在Object.c的JNINativeMethod数组里，它的函数指针指向了JVM_IHashCode。最终hash是从markOop对象的hash()方法中获取的，这个方法的实现在hotspot\src\share\vm\oops\markOop.hpp中：
-~~~ 
+~~~ c++
 // hash operations
 intptr_t hash() const {
   return mask_bits(value() >> hash_shift, hash_mask);
@@ -163,7 +164,7 @@ public boolean equals(Object obj) {
 - 在程序运行过程中，同一个对象的hashCode无论执行多少次都要保持一致。  
 &emsp;&emsp;但是，在程序重启后同一个对象的hashCode不用和之前那次运行的hashCode保持一致。但是考虑如果在分布式的情况下，如果对象作为key，最好还是保证无论在哪台机器上运行多少次，重启多少次，不同机器上，同一个对象（指的是两个equals对象），的hashCode值都一样（原因之后会说的）。 
 例如这里的Object对于hashCode的实现，在当前次运行，这个对象的存储地址是不变的。所以hashCode不变，但是程序重启后就不一定了。对于String的hashCode实现：
-~~~ 
+~~~ java
 public int hashCode() {
     int h = hash;
     if (h == 0 && value.length > 0) {
@@ -183,7 +184,7 @@ public int hashCode() {
 ### 7、clone()
 &emsp;&emsp;它定义在Object.c的JNINativeMethod数组里，它的函数指针指向了JVM_Clone。代码会首先判断准备被clone的类是否实现了Cloneable接口，若为否则会抛CloneNotSupportException异常。接着根据要clone的对象是否数组进行新对象的内存分配以及信息写入，然后copy内存块信息到新对象。接下来初始化对象头，进行存储检查标记新对象分配堆栈，然后将需要特别注册的方法进行注册，最后将复制完成的内存块转换成本地对象并将其返回。
 &emsp;&emsp;其中`_Copy_conjoint_jlongs_atomic()`方法:
-~~~ 
+~~~ c++
 void _Copy_conjoint_jlongs_atomic(jlong* from, jlong* to, size_t count) {
     if (from > to) {
       jlong *end = from + count;
@@ -201,13 +202,13 @@ void _Copy_conjoint_jlongs_atomic(jlong* from, jlong* to, size_t count) {
 ~~~ 
 &emsp;&emsp;至此，我们看到了整个对象copy的过程，就是把from指针指向的内存的值赋给to指针指向的内存，这是一个简单的拷贝操作。可以知道，在经过了clone()方法生成的新对象并不是通过构造函数来创建，而是直接在内存层面进行了copy操作。要注意的是，使用clone()来进行对象的copy是浅拷贝，浅拷贝仅仅复制所考虑的对象，而不复制它所引用的对象。
 ### 8、toString()
-~~~ 
+~~~ java
 public String toString() {
     return getClass().getName() + "@" + Integer.toHexString(hashCode());
 }
 ~~~ 
 &emsp;&emsp;getName()方法位于java.lang.Class类中：
-~~~ 
+~~~ java
 public String getName() {
     String name = this.name;
     if (name == null)
@@ -223,7 +224,7 @@ private native String getName0();
 &emsp;&emsp;从源码分析，我们依然还是在Object.c中可以找到它的定义，同样在JNINativeMethod数组里，它的函数指针指向JVM_MonitorNotify。  
 &emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notify()方法：   
 
-~~~ 
+~~~ c++
 // Consider: a not-uncommon synchronization bug is to use notify() when
 // notifyAll() is more appropriate, potentially resulting in stranded
 // threads; this is one example of a lost wakeup. A useful diagnostic
@@ -251,7 +252,7 @@ void ObjectMonitor::notify(TRAPS) {
 ### 10、notifyAll()
 &emsp;&emsp;与notify()方法类似，notifyAll()方法也是唤醒线程，但它唤醒的是全部等待唤醒的线程。
 &emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notifyAll()方法：  
-~~~ 
+~~~ c++
 // The current implementation of notifyAll() transfers the waiters one-at-a-time
 // from the waitset to the EntryList. This could be done more efficiently with a
 // single bulk transfer but in practice it's not time-critical. Beware too,
@@ -277,7 +278,7 @@ void ObjectMonitor::notifyAll(TRAPS) {
 }
 ~~~ 
 ### 11、wait()
-~~~ 
+~~~ java
 public final void wait() throws InterruptedException {
     wait(0L);
 }
