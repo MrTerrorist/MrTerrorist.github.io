@@ -18,7 +18,8 @@ https://www.cnblogs.com/lwbqqyumidi/p/3804883.html
 
 
 ## 一、概览
-{% highlight java %}
+
+~~~ 
 package java.lang;
 import jdk.internal.HotSpotIntrinsicCandidate;
 public class Object {
@@ -79,14 +80,14 @@ public class Object {
     @Deprecated(since="9")
     protected void finalize() throws Throwable { }
 }
-{% highlight java %}
+~~~ 
 
 ## 二、方法详细
 ### 1、registerNatives()
 &emsp;&emsp;修饰符native表明了这是个本地方法，由于JAVA是无法直接访问到操作系统底层（如系统硬件等) 的，当代码中需要访问到底层时，就需要用native方法来扩展了，它能够通过JNI接口调用其他语言来实现对底层的访问。Java中，用native关键字修饰的函数表明该方法的实现并不是在Java中去完成，而是由C/C++去完成，并被编译成了.dll，由Java去调用。方法的具体实现体在dll文件中，对于不同平台，其具体实现应该有所不同。用native修饰，即表示操作系统，需要提供此方法，Java本身需要使用。具体到registerNatives()方法本身，其主要作用是将C/C++中的方法映射到Java中的native方法，实现方法命名的解耦。  
 &emsp;&emsp;通常，为了让JVM找到你的本地函数，它们必须以某种方式命名。通过使用registerNatives（或者说，JNI函数RegisterNatives），你可以任意指定你的C函数。  
 &emsp;&emsp;相关Object.c源码：  
-```
+~~~ 
 static JNINativeMethod methods[] = {
     {"hashCode", "()I", (void *)&JVM_IHashCode},
     {"wait", "(J)V", (void *)&JVM_MonitorWait},
@@ -111,7 +112,7 @@ Java_java_lang_Object_getClass(JNIEnv *env, jobject this)
         return (*env)->GetObjectClass(env, this);
     }
 }
-```
+~~~ 
 &emsp;&emsp;对于列出的函数，关联的C函数在该表中列出，这比编写一堆转发函数更方便。请注意，`Object.getClass`它不在列表中，它仍然会被“标准”名称调用`Java_java_lang_Object_getClass`。  
 ### 2、@HotSpotIntrinsicCandidate
 &emsp;&emsp;这个注解是HotSpot虚拟机特有的注解，使用了该注解的方法，它表示该方法在HotSpot虚拟机内部可能会自己来编写内部实现，用以提高性能，但是它并不是必须要自己实现的，它只是表示了一种可能。这个一般开发中用不到，只有特别场景下，对于性能要求比较苛刻的情况下，才需要对底部的代码重写。
@@ -120,7 +121,7 @@ Java_java_lang_Object_getClass(JNIEnv *env, jobject this)
 ### 4、getClass()
 &emsp;&emsp;与registerNatives()一样，getClass()也是一个native方法，自然我们还得从Object.c中去寻找痕迹。 
 &emsp;&emsp;它的实现在jni.cpp中：
-```
+~~~ 
 JNI_ENTRY(jclass, jni_GetObjectClass(JNIEnv *env, jobject obj))
   JNIWrapper("GetObjectClass");
 
@@ -133,7 +134,7 @@ JNI_ENTRY(jclass, jni_GetObjectClass(JNIEnv *env, jobject obj))
   HOTSPOT_JNI_GETOBJECTCLASS_RETURN(ret);
   return ret;
 JNI_END
-```
+~~~ 
 &emsp;&emsp;可以看到JVM返回了对象运行时的类。GetClass()是一个类的实例所具备的方法，它是在运行时才确定的，所以若此时实例终止了，则会抛出空指针异常。
 ### 5、hashCode()
 &emsp;&emsp;它定义在Object.c的JNINativeMethod数组里，它的函数指针指向了JVM_IHashCode。最终hash是从markOop对象的hash()方法中获取的，这个方法的实现在hotspot\src\share\vm\oops\markOop.hpp中：
