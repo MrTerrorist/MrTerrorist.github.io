@@ -299,5 +299,5 @@ public final void wait(long timeoutMillis, int nanos) throws InterruptedExceptio
 ~~~ 
 &emsp;&emsp;总体来看，使用了timeout参数的wait()方法，会让线程等待设置的timeout时长后自动被唤醒，若在等待过程中线程执行了notify()或者notifyAll()则会被直接唤醒。这里的timeout参数设置为0，则表示线程会永久等待直到notify()或notifyAll()将其唤醒。
 ### 12、finalize()
-&emsp;&emsp;finalize()方法在对象终结时调用，它在GC回收对象时会自动被调用，但JVM不保证finalize()方法一定会被调用，也就是说它的自动调用是不确定的。当然，基于这个原因，当初SUN就不提倡大家使用这个方法。现在我们看到再JDK9中，这个方法终于被标记为Deprecated，即为过时方法，从注释中也可以看出，Oracle建议用java.lang.ref.Cleaner来替代finalize()的使用
+&emsp;&emsp;finalize()方法在对象终结时调用，它在GC回收对象时会自动被调用，但JVM不保证finalize()方法一定会被调用，也就是说它的自动调用是不确定的。当然，基于这个原因，当初SUN就不提倡大家使用这个方法。现在我们看到再JDK9中，这个方法终于被标记为Deprecated，即为过时方法，从注释中也可以看出，Oracle建议用java.lang.ref.Cleaner来替代finalize()的使用。
 
