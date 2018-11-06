@@ -15,6 +15,8 @@ https://blog.csdn.net/ynter/article/details/52712767
 https://blog.csdn.net/baiye_xing/article/details/71788741  
 http://ifeve.com/java-concurrency-thread-directory/  
 https://www.cnblogs.com/lwbqqyumidi/p/3804883.html  
+https://www.cnblogs.com/quiet-snowy-day/p/6387321.html  
+https://blog.csdn.net/u010198383/article/details/65627072  
 
 
 ## 一、概览
@@ -308,3 +310,209 @@ protected void finalize() throws Throwable { }
 ~~~
 &emsp;&emsp;finalize()方法在对象终结时调用，它在GC回收对象时会自动被调用，但JVM不保证finalize()方法一定会被调用，也就是说它的自动调用是不确定的。当然，基于这个原因，当初SUN就不提倡大家使用这个方法。现在我们看到再JDK9中，这个方法终于被标记为Deprecated，即为过时方法，从注释中也可以看出，Oracle建议用java.lang.ref.Cleaner来替代finalize()的使用。
 
+## 三、java.util.Objects
+&emsp;&emsp;Object 是 Java 中所有类的基类，位于java.lang包。
+&emsp;&emsp;Objects 是 Object 的工具类，位于java.util包。它从jdk1.7开始才出现，被final修饰不能被继承，拥有私有的构造函数。
+它由一些静态的实用方法组成，这些方法是null-save（空指针安全的）或null-tolerant（容忍空指针的），用于计算对象的hashcode、返回对象的字符串表示形式、比较两个对象。
+### 1、equals(Object a, Object b)
+~~~ java
+    public static boolean equals(Object a, Object b) {
+        return (a == b) || (a != null && a.equals(b));
+    }
+~~~
+&emsp;&emsp;对比对象地址值是否相等，而且还是用equals方法进行比较，而且不用关心a，b对象是否为空。使用的是第一个参数的equals()方法，如果两个参数中有一个是null，则返回false，如果两个参数都是null，则返回true。  
+
+### 2、deepEquals(Object a, Object b)  
+~~~ java
+    public static boolean deepEquals(Object a, Object b) {
+        if (a == b)
+            return true;
+        else if (a == null || b == null)
+            return false;
+        else
+            return Arrays.deepEquals0(a, b);
+    }
+~~~
+&emsp;&emsp;深度比较，就是可以比较数组内容是否相等。
+&emsp;&emsp;关于Arrays.deepEquals0(Object e1, Object e2):
+~~~ java
+    static boolean deepEquals0(Object e1, Object e2) {
+        assert e1 != null;
+        boolean eq;
+        if (e1 instanceof Object[] && e2 instanceof Object[])
+            eq = deepEquals ((Object[]) e1, (Object[]) e2);
+        else if (e1 instanceof byte[] && e2 instanceof byte[])
+            eq = equals((byte[]) e1, (byte[]) e2);
+        else if (e1 instanceof short[] && e2 instanceof short[])
+            eq = equals((short[]) e1, (short[]) e2);
+        else if (e1 instanceof int[] && e2 instanceof int[])
+            eq = equals((int[]) e1, (int[]) e2);
+        else if (e1 instanceof long[] && e2 instanceof long[])
+            eq = equals((long[]) e1, (long[]) e2);
+        else if (e1 instanceof char[] && e2 instanceof char[])
+            eq = equals((char[]) e1, (char[]) e2);
+        else if (e1 instanceof float[] && e2 instanceof float[])
+            eq = equals((float[]) e1, (float[]) e2);
+        else if (e1 instanceof double[] && e2 instanceof double[])
+            eq = equals((double[]) e1, (double[]) e2);
+        else if (e1 instanceof boolean[] && e2 instanceof boolean[])
+            eq = equals((boolean[]) e1, (boolean[]) e2);
+        else
+            eq = e1.equals(e2);
+        return eq;
+    }
+
+    public static boolean deepEquals(Object[] a1, Object[] a2) {
+        if (a1 == a2)
+            return true;
+        if (a1 == null || a2==null)
+            return false;
+        int length = a1.length;
+        if (a2.length != length)
+            return false;
+
+        for (int i = 0; i < length; i++) {
+            Object e1 = a1[i];
+            Object e2 = a2[i];
+
+            if (e1 == e2)
+                continue;
+            if (e1 == null)
+                return false;
+
+            // Figure out whether the two elements are equal
+            boolean eq = deepEquals0(e1, e2);
+
+            if (!eq)
+                return false;
+        }
+        return true;
+    }
+
+    @HotSpotIntrinsicCandidate
+    public static boolean equals(byte[] a, byte[] a2) {
+        if (a==a2)
+            return true;
+        if (a==null || a2==null)
+            return false;
+
+        int length = a.length;
+        if (a2.length != length)
+            return false;
+
+        return ArraysSupport.mismatch(a, a2, length) < 0;
+    }
+    .
+    .
+    .
+~~~
++ 如果参数是Object类型的数组，则调用Arrays.deepEquals方法，在参数数组的循环中，递归调用deepEquals0，直到出现不相同的元素，或者循环结束；
++ 如果参数是基本类型的数组，则根据该类型调用Arrays.equals方法。Arrays工具类依照八种基本类型对equals方法做了重载。  
+
+### 3、hashCode(Object o)
+~~~ java
+    public static int hashCode(Object o) {
+        return o != null ? o.hashCode() : 0;
+    }
+~~~
+&emsp;&emsp;返回一个整型数值，表示该对象的哈希码值。若参数对象为空，则返回整数0；若不为空，则直接调用了Object.hashCode方法。
+
+### 附完整代码:
+~~~ java
+package java.util;
+
+import jdk.internal.util.Preconditions;
+import jdk.internal.vm.annotation.ForceInline;
+
+import java.util.function.Supplier;
+public final class Objects {
+    private Objects() {
+        throw new AssertionError("No java.util.Objects instances for you!");
+    }
+
+    public static boolean equals(Object a, Object b) {
+        return (a == b) || (a != null && a.equals(b));
+    }
+
+    public static boolean deepEquals(Object a, Object b) {
+        if (a == b)
+            return true;
+        else if (a == null || b == null)
+            return false;
+        else
+            return Arrays.deepEquals0(a, b);
+    }
+
+    public static int hashCode(Object o) {
+        return o != null ? o.hashCode() : 0;
+    }
+
+    public static int hash(Object... values) {
+        return Arrays.hashCode(values);
+    }
+
+    public static String toString(Object o) {
+        return String.valueOf(o);
+    }
+
+    public static String toString(Object o, String nullDefault) {
+        return (o != null) ? o.toString() : nullDefault;
+    }
+
+    public static <T> int compare(T a, T b, Comparator<? super T> c) {
+        return (a == b) ? 0 :  c.compare(a, b);
+    }
+
+    public static <T> T requireNonNull(T obj) {
+        if (obj == null)
+            throw new NullPointerException();
+        return obj;
+    }
+
+    public static <T> T requireNonNull(T obj, String message) {
+        if (obj == null)
+            throw new NullPointerException(message);
+        return obj;
+    }
+
+    public static boolean isNull(Object obj) {
+        return obj == null;
+    }
+
+    public static boolean nonNull(Object obj) {
+        return obj != null;
+    }
+
+    public static <T> T requireNonNullElse(T obj, T defaultObj) {
+        return (obj != null) ? obj : requireNonNull(defaultObj, "defaultObj");
+    }
+
+    public static <T> T requireNonNullElseGet(T obj, Supplier<? extends T> supplier) {
+        return (obj != null) ? obj
+                : requireNonNull(requireNonNull(supplier, "supplier").get(), "supplier.get()");
+    }
+
+    public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
+        if (obj == null)
+            throw new NullPointerException(messageSupplier == null ?
+                                           null : messageSupplier.get());
+        return obj;
+    }
+
+    @ForceInline
+    public static
+    int checkIndex(int index, int length) {
+        return Preconditions.checkIndex(index, length, null);
+    }
+
+    public static
+    int checkFromToIndex(int fromIndex, int toIndex, int length) {
+        return Preconditions.checkFromToIndex(fromIndex, toIndex, length, null);
+    }
+
+    public static
+    int checkFromIndexSize(int fromIndex, int size, int length) {
+        return Preconditions.checkFromIndexSize(fromIndex, size, length, null);
+    }
+}
+~~~
