@@ -122,7 +122,7 @@ Java_java_lang_Object_getClass(JNIEnv *env, jobject this)
 ### 3、Object()
 &emsp;&emsp;在类定义过程中，对于未定义构造函数的类，默认会有一个无参数的构造函数，Object类作为所有类的基类，当然也会有自己的构造方法。
 ### 4、getClass()
-&emsp;&emsp;与registerNatives()一样，getClass()也是一个native方法，自然我们还得从Object.c中去寻找痕迹。 
+&emsp;&emsp;与`registerNatives()`一样，`getClass()`也是一个native方法，自然我们还得从Object.c中去寻找痕迹。   
 &emsp;&emsp;它的实现在jni.cpp中：
 ~~~ c++
 JNI_ENTRY(jclass, jni_GetObjectClass(JNIEnv *env, jobject obj))
@@ -138,7 +138,7 @@ JNI_ENTRY(jclass, jni_GetObjectClass(JNIEnv *env, jobject obj))
   return ret;
 JNI_END
 ~~~ 
-&emsp;&emsp;可以看到JVM返回了对象运行时的类。GetClass()是一个类的实例所具备的方法，它是在运行时才确定的，所以若此时实例终止了，则会抛出空指针异常。
+&emsp;&emsp;可以看到JVM返回了对象运行时的类。`getClass()`是一个类的实例所具备的方法，它是在运行时才确定的，所以若此时实例终止了，则会抛出空指针异常。
 ### 5、hashCode()
 &emsp;&emsp;它定义在Object.c的JNINativeMethod数组里，它的函数指针指向了JVM_IHashCode。最终hash是从markOop对象的hash()方法中获取的，这个方法的实现在hotspot\src\share\vm\oops\markOop.hpp中：
 ~~~ c++
@@ -156,13 +156,13 @@ public boolean equals(Object obj) {
 }
 ~~~ 
 
-&emsp;&emsp;equals()方法用于比较其他对象与本对象是否等同，它适用于非空对象之间的对比。从它的注释来看，它拥有以下这几个特性（自反性、对称性、传递性、一致性、非空性）：  
+&emsp;&emsp;`equals()`方法用于比较其他对象与本对象是否等同，它适用于非空对象之间的对比。从它的注释来看，它拥有以下这几个特性（自反性、对称性、传递性、一致性、非空性）：  
 - It is reflexive: for any non-null reference value x, x.equals(x) should return true.
 - It is symmetric: for any non-null reference values x and y, x.equals(y) should return true if and only if y.equals(x) returns true.
 - It is transitive: for any non-null reference values x, y, and z, if x.equals(y) returns true and y.equals(z) returns true, then x.equals(z) should return true.
 - It is consistent: for any non-null reference values x and y, multiple invocations of x.equals(y) consistently return true or consistently return false, provided no information used in equals comparisons on the objects is modified.
 - For any non-null reference value x, x.equals(null) should return false.  
-&emsp;&emsp;Java内规定，hashCode方法的结果需要与equals方法一致。也就是说，如果两个对象的hashCode相同，那么两个对象调用equals方法的结果需要一致。那么也就是在以后的java程序设计中，你需要同时覆盖这两个方法来保证一致性。如果两个Object的hashCode一样，那么就代表两个Object的内存地址一样，实际上他们就是同一个对象。所以，Object的equals实现就是看两个对象指针是否相等（是否是同一个对象） 。在JAVA程序设计中，对于hashCode方法需要满足：
+&emsp;&emsp;Java内规定，hashCode方法的结果需要与equals方法一致。也就是说，如果两个对象的hashCode相同，那么两个对象调用equals方法的结果需要一致。那么也就是在以后的java程序设计中，你需要同时覆盖这两个方法来保证一致性。如果两个Object的hashCode一样，那么就代表两个Object的内存地址一样，实际上他们就是同一个对象。所以，Object的equals实现就是看两个对象指针是否相等（是否是同一个对象） 。在JAVA程序设计中，对于hashCode方法需要满足：  
 - 在程序运行过程中，同一个对象的hashCode无论执行多少次都要保持一致。  
 &emsp;&emsp;但是，在程序重启后同一个对象的hashCode不用和之前那次运行的hashCode保持一致。但是考虑如果在分布式的情况下，如果对象作为key，最好还是保证无论在哪台机器上运行多少次，重启多少次，不同机器上，同一个对象（指的是两个equals对象），的hashCode值都一样（原因之后会说的）。 
 例如这里的Object对于hashCode的实现，在当前次运行，这个对象的存储地址是不变的。所以hashCode不变，但是程序重启后就不一定了。对于String的hashCode实现：
@@ -209,7 +209,7 @@ public String toString() {
     return getClass().getName() + "@" + Integer.toHexString(hashCode());
 }
 ~~~ 
-&emsp;&emsp;getName()方法位于java.lang.Class类中：
+&emsp;&emsp;`getName()`方法位于java.lang.Class类中：
 ~~~ java
 public String getName() {
     String name = this.name;
@@ -220,11 +220,11 @@ public String getName() {
 private transient String name;
 private native String getName0();
 ~~~ 
-&emsp;&emsp;java.lang.Integer.toHexString() 方法返回为无符号整数基数为16的整数参数的字符串表示形式。
+&emsp;&emsp;`java.lang.Integer.toHexString()` 方法返回为无符号整数基数为16的整数参数的字符串表示形式。
 ### 9、notify()
-&emsp;&emsp;这个方法用来唤醒一个在当前对象监视器（monitor）里的正等待唤醒的线程，而且notify()只能在本身拥有对应对象监视器的对象上去调用，获得对象本身的监视器有三种途径：从执行该对象的同步方法中获取、从执行该对象的同步块中获取、从执行类的静态同步方法中获取。  
+&emsp;&emsp;这个方法用来唤醒一个在当前对象监视器（monitor）里的正等待唤醒的线程，而且`notify()`只能在本身拥有对应对象监视器的对象上去调用，获得对象本身的监视器有三种途径：从执行该对象的同步方法中获取、从执行该对象的同步块中获取、从执行类的静态同步方法中获取。  
 &emsp;&emsp;从源码分析，我们依然还是在Object.c中可以找到它的定义，同样在JNINativeMethod数组里，它的函数指针指向JVM_MonitorNotify。  
-&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notify()方法：   
+&emsp;&emsp;通过`ObjectSynchronizer::inflate()`方法获得了objectMonitor对象，执行其中的notify()方法：   
 
 ~~~ c++
 // Consider: a not-uncommon synchronization bug is to use notify() when
@@ -252,8 +252,8 @@ void ObjectMonitor::notify(TRAPS) {
 ~~~  
 
 ### 10、notifyAll()
-&emsp;&emsp;与notify()方法类似，notifyAll()方法也是唤醒线程，但它唤醒的是全部等待唤醒的线程。
-&emsp;&emsp;通过ObjectSynchronizer::inflate()方法获得了objectMonitor对象，执行其中的notifyAll()方法：  
+&emsp;&emsp;与`notify()`方法类似，`notifyAll()`方法也是唤醒线程，但它唤醒的是全部等待唤醒的线程。
+&emsp;&emsp;通过`ObjectSynchronizer::inflate()`方法获得了objectMonitor对象，执行其中的`notifyAll()`方法：  
 ~~~ c++
 // The current implementation of notifyAll() transfers the waiters one-at-a-time
 // from the waitset to the EntryList. This could be done more efficiently with a
@@ -302,17 +302,17 @@ public final void wait(long timeoutMillis, int nanos) throws InterruptedExceptio
     wait(timeoutMillis);
 }
 ~~~ 
-&emsp;&emsp;总体来看，使用了timeout参数的wait()方法，会让线程等待设置的timeout时长后自动被唤醒，若在等待过程中线程执行了notify()或者notifyAll()则会被直接唤醒。这里的timeout参数设置为0，则表示线程会永久等待直到notify()或notifyAll()将其唤醒。
+&emsp;&emsp;总体来看，使用了timeout参数的`wait()`方法，会让线程等待设置的timeout时长后自动被唤醒，若在等待过程中线程执行了`notify()`或者`notifyAll()`则会被直接唤醒。这里的timeout参数设置为0，则表示线程会永久等待直到`notify()`或`notifyAll()`将其唤醒。
 ### 12、finalize()
 ~~~ java
 @Deprecated(since="9")
 protected void finalize() throws Throwable { }
 ~~~
-&emsp;&emsp;finalize()方法在对象终结时调用，它在GC回收对象时会自动被调用，但JVM不保证finalize()方法一定会被调用，也就是说它的自动调用是不确定的。当然，基于这个原因，当初SUN就不提倡大家使用这个方法。现在我们看到再JDK9中，这个方法终于被标记为Deprecated，即为过时方法，从注释中也可以看出，Oracle建议用java.lang.ref.Cleaner来替代finalize()的使用。
+&emsp;&emsp;`finalize()`方法在对象终结时调用，它在GC回收对象时会自动被调用，但JVM不保证`finalize()`方法一定会被调用，也就是说它的自动调用是不确定的。当然，基于这个原因，当初SUN就不提倡大家使用这个方法。现在我们看到再JDK9中，这个方法终于被标记为Deprecated，即为过时方法，从注释中也可以看出，Oracle建议用`java.lang.ref.Cleaner`来替代`finalize()`的使用。
 
 ## 三、java.util.Objects
-&emsp;&emsp;Object 是 Java 中所有类的基类，位于java.lang包。
-&emsp;&emsp;Objects 是 Object 的工具类，位于java.util包。它从jdk1.7开始才出现，被final修饰不能被继承，拥有私有的构造函数。
+&emsp;&emsp;`Object` 是 Java 中所有类的基类，位于java.lang包。
+&emsp;&emsp;`Objects` 是 Object 的工具类，位于java.util包。它从jdk1.7开始才出现，被final修饰不能被继承，拥有私有的构造函数。
 它由一些静态的实用方法组成，这些方法是null-save（空指针安全的）或null-tolerant（容忍空指针的），用于计算对象的hashcode、返回对象的字符串表示形式、比较两个对象。
 ### 1、equals(Object a, Object b)
 ~~~ java
@@ -320,7 +320,7 @@ protected void finalize() throws Throwable { }
         return (a == b) || (a != null && a.equals(b));
     }
 ~~~
-&emsp;&emsp;对比对象地址值是否相等，而且还是用equals方法进行比较，而且不用关心a，b对象是否为空。使用的是第一个参数的equals()方法，如果两个参数中有一个是null，则返回false，如果两个参数都是null，则返回true。  
+&emsp;&emsp;对比对象地址值是否相等，而且还是用equals方法进行比较，而且不用关心a，b对象是否为空。使用的是第一个参数的`equals()`方法，如果两个参数中有一个是null，则返回false，如果两个参数都是null，则返回true。  
 
 ### 2、deepEquals(Object a, Object b)  
 ~~~ java
@@ -333,8 +333,8 @@ protected void finalize() throws Throwable { }
             return Arrays.deepEquals0(a, b);
     }
 ~~~
-&emsp;&emsp;深度比较，就是可以比较数组内容是否相等。
-&emsp;&emsp;关于Arrays.deepEquals0(Object e1, Object e2):
+&emsp;&emsp;深度比较，就是可以比较数组内容是否相等。  
+&emsp;&emsp;关于`Arrays.deepEquals0(Object e1, Object e2)`:
 ~~~ java
     static boolean deepEquals0(Object e1, Object e2) {
         assert e1 != null;
@@ -406,8 +406,8 @@ protected void finalize() throws Throwable { }
     .
     .
 ~~~
-+ 如果参数是Object类型的数组，则调用Arrays.deepEquals方法，在参数数组的循环中，递归调用deepEquals0，直到出现不相同的元素，或者循环结束；
-+ 如果参数是基本类型的数组，则根据该类型调用Arrays.equals方法。Arrays工具类依照八种基本类型对equals方法做了重载。  
++ 如果参数是Object类型的数组，则调用`Arrays.deepEquals`方法，在参数数组的循环中，递归调用`deepEquals0`，直到出现不相同的元素，或者循环结束；
++ 如果参数是基本类型的数组，则根据该类型调用`Arrays.equals`方法。Arrays工具类依照八种基本类型对equals方法做了重载。  
 
 ### 3、hashCode(Object o)
 ~~~ java
@@ -415,7 +415,31 @@ protected void finalize() throws Throwable { }
         return o != null ? o.hashCode() : 0;
     }
 ~~~
-&emsp;&emsp;返回一个整型数值，表示该对象的哈希码值。若参数对象为空，则返回整数0；若不为空，则直接调用了Object.hashCode方法。
+&emsp;&emsp;返回一个整型数值，表示该对象的哈希码值。若参数对象为空，则返回整数0；若不为空，则直接调用了`Object.hashCode`方法。
+
+### 4、hash(Object... values)
+~~~ java
+    public static int hash(Object... values) {
+        return Arrays.hashCode(values);
+    }
+~~~
+&emsp;&emsp;为一系列的输入值生成哈希码，该方法的参数是可变参数。它是将所有的输入值都放到一个数组，然后调用`Arrays.hashCode(Object[])`方法来实现哈希码的生成。
+~~~ java
+    public static int hashCode(Object a[]) {
+        if (a == null)
+            return 0;
+
+        int result = 1;
+
+        for (Object element : a)
+            result = 31 * result + (element == null ? 0 : element.hashCode());
+
+        return result;
+    }
+~~~
+
+
+
 
 ### 附完整代码:
 ~~~ java
