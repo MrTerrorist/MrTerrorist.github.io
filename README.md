@@ -1,30 +1,35 @@
-# Moon Jekyll Theme [![Donate](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/taylantatli/0usd)  
-  
-## `Sorry guys but there will be no update until I buy a new laptop.`
-    
-######(If you like this theme or using it, please give a :star: for motivation.)
+# Leonids Gatsby starter
 
-**[Moon](https://taylantatli.github.io/Moon)** is a minimal, one column jekyll theme.
+**[Leonids](http://renyuanz.github.io/leonids)** is a clean, fixed sidebar Gatsby starter which is perfect for powering your GitHub hosted blog.
 
-## Features
-* Minimal, you can focus on your content
-* Responsive
-* Disqus integration
-* Syntax highlighting
-* Optional post image
-* Social icons
-* Page for sharing projects
-* Optional background image
-* Simple navigation menu
-* MathJax support
+### Preview
 
-## Preview
+![theme-preview](./content/assets/theme-preview.gif)
 
-![screenshot of Moon](https://cloud.githubusercontent.com/assets/754514/14509720/61c61058-01d6-11e6-93ab-0918515ecd56.png)    
-![screenshot of Moon](https://cloud.githubusercontent.com/assets/754514/14509716/61ac6c8e-01d6-11e6-879f-8308883de790.png)
+## What is Leonids?
 
-See a [live version of Moon](https://taylantatli.github.io/Moon) hosted on GitHub.
+A blazing fast static blog theme built on Gatsby.js
 
-## Getting Started
+![lighthouse-performance](./content/assets/lighthouse-performance.png)
 
-To learn how to install and use this theme check out the [Setup Guide](https://taylantatli.github.io/Moon/moon-theme/) for more information.
+- Responsive templates. Looking good on any viewport.
+- Fixed sidebar to provide a good navigation experience while reading.
+- Light/Dark mode.
+- **And** the Leonids (/ˈliːənɪdz/ lee-ə-nidz) are a prolific meteor shower associated with the comet [Tempel-Tuttle](https://en.wikipedia.org/wiki/55P/Tempel%E2%80%93Tuttle).
+
+See a [demo](http://renyuanz.github.io/leonids/) hosted on GitHub pages.
+
+## Quick setup
+
+```
+gatsby new my-blog https://github.com/renyuanz/leonids
+cd my-blog
+gatsby develop
+```
+
+Check out your awesome blog at `http://localhost:8000` and Cheers!
+
+
+## Legacy Jekyll theme
+
+This project was a Jekyll blog theme, which is archived and not maintained any more. You can still find the source code in [leonids-jekyll](https://github.com/renyuanz/leonids/tree/leonids-jekyll) branch.
