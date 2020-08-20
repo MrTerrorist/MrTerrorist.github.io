@@ -1,4 +1,102 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Leonids]]></title><description><![CDATA[A simple, fixed sidebar two columns Gatsby.js blog starter.]]></description><link>https://renyuanz.github.io/leonids</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 19 Aug 2020 14:32:48 GMT</lastBuildDate><item><title><![CDATA[Syntax Highlighting Post]]></title><description><![CDATA[Syntax highlighting is a feature that displays source code, in different colors and fonts according to the category of terms. This feature…]]></description><link>https://renyuanz.github.io/leonids/code-highlighting-post/</link><guid isPermaLink="false">https://renyuanz.github.io/leonids/code-highlighting-post/</guid><pubDate>Mon, 27 Jul 2020 07:26:03 GMT</pubDate><content:encoded>&lt;p&gt;Syntax highlighting is a feature that displays source code, in different colors and fonts according to the category of terms. This feature facilitates writing in a structured language such as a programming language or a markup language as both structures and syntax errors are visually distinct. Highlighting does not affect the meaning of the text itself; it is intended only for human readers.&lt;sup id=&quot;fnref-1&quot;&gt;&lt;a href=&quot;#fn-1&quot; class=&quot;footnote-ref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Leonids]]></title><description><![CDATA[A simple, fixed sidebar two columns Gatsby.js blog starter.]]></description><link>https://renyuanz.github.io/leonids</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 20 Aug 2020 08:56:58 GMT</lastBuildDate><item><title><![CDATA[通过Gatsby搭建个人博客]]></title><description><![CDATA[一、Linux安装 1、Linux安装npm 参考:
+https://www.jianshu.com/p/7310798db1c2
+https://developer.aliyun.com/mirror/NPM?from=tnpm
+https://www.npmjs.com…]]></description><link>https://renyuanz.github.io/leonids/gatsby-blog/</link><guid isPermaLink="false">https://renyuanz.github.io/leonids/gatsby-blog/</guid><pubDate>Thu, 20 Aug 2020 16:56:03 GMT</pubDate><content:encoded>&lt;h1&gt;一、Linux安装&lt;/h1&gt;
+&lt;h2&gt;1、Linux安装npm&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;wget https://npm.taobao.org/mirrors/node/latest-v14.x/node-v14.8.0-linux-x64.tar.gz
+tar zxvf node-v14.8.0-linux-x64.tar.gz -C /opt
+sudo ln -s /opt/node-v14.8.0-linux-x64/bin/node /usr/local/bin/node
+sudo ln -s /opt/node-v14.8.0-linux-x64/bin/npm /usr/local/bin/npm
+npm -v&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考:
+&lt;a href=&quot;https://www.jianshu.com/p/7310798db1c2&quot;&gt;https://www.jianshu.com/p/7310798db1c2&lt;/a&gt;
+&lt;a href=&quot;https://developer.aliyun.com/mirror/NPM?from=tnpm&quot;&gt;https://developer.aliyun.com/mirror/NPM?from=tnpm&lt;/a&gt;
+&lt;a href=&quot;https://www.npmjs.com/&quot;&gt;https://www.npmjs.com/&lt;/a&gt;
+&lt;a href=&quot;https://nodejs.org/en/&quot;&gt;https://nodejs.org/en/&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;2、安装cnpm&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install -g cnpm --registry=https://registry.npm.taobao.org
+sudo ln -s /opt/node-v14.8.0-linux-x64/bin/cnpm /usr/local/bin/cnpm
+cnpm -v&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;3、安装gatsby&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;cnpm install -g gatsby-cli
+sudo ln -s /opt/node-v14.8.0-linux-x64/bin/gatsby /usr/local/bin/gatsby
+gatsby --v
+yum install curl-devel expat-devel gettext-devel \
+  openssl-devel zlib-devel
+yum -y install git-core
+git --version&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：
+&lt;a href=&quot;https://github.com/renyuanz/leonids&quot;&gt;https://github.com/renyuanz/leonids&lt;/a&gt;
+&lt;a href=&quot;https://www.gatsbyjs.com/tutorial/&quot;&gt;https://www.gatsbyjs.com/tutorial/&lt;/a&gt;
+&lt;a href=&quot;https://www.gatsbyjs.com/docs/quick-start/&quot;&gt;https://www.gatsbyjs.com/docs/quick-start/&lt;/a&gt;
+&lt;a href=&quot;https://www.atlassian.com/git/tutorials/install-git#linux&quot;&gt;https://www.atlassian.com/git/tutorials/install-git#linux&lt;/a&gt;
+&lt;a href=&quot;https://www.runoob.com/git/git-install-setup.html&quot;&gt;https://www.runoob.com/git/git-install-setup.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;4、安装Leonids&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;gatsby new my-blog https://github.com/renyuanz/leonids
+cd my-blog
+gatsby develop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：
+&lt;a href=&quot;https://github.com/renyuanz/leonids&quot;&gt;https://github.com/renyuanz/leonids&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;5、遇到的权限等问题解决&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;vim install.sh
+chmod u+x install.sh
+./install.sh
+nvm --version
+export NVM_NODEJS_ORG_MIRROR=https://npm.taobao.org/mirrors/node
+nvm install node
+sudo yum install libpng libpng-devel&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：
+curl -o- &lt;a href=&quot;https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh&quot;&gt;https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh&lt;/a&gt; | bash&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.cnblogs.com/zhenqichai/p/npm-eacces-permission-error-fix.html&quot;&gt;https://www.cnblogs.com/zhenqichai/p/npm-eacces-permission-error-fix.html&lt;/a&gt;
+&lt;a href=&quot;https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally&quot;&gt;https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally&lt;/a&gt;
+&lt;a href=&quot;https://github.com/nvm-sh/nvm&quot;&gt;https://github.com/nvm-sh/nvm&lt;/a&gt;
+&lt;a href=&quot;https://my.oschina.net/tearlight/blog/685514&quot;&gt;https://my.oschina.net/tearlight/blog/685514&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;二、网站开发和部署&lt;/h1&gt;
+&lt;h2&gt;1、WSL 2&lt;/h2&gt;
+&lt;h3&gt;（1）适用于 Linux 的 Windows 子系统安装指南 (Windows 10)&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://docs.microsoft.com/zh-cn/windows/wsl/install-win10&quot;&gt;https://docs.microsoft.com/zh-cn/windows/wsl/install-win10&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;（2）WSL迁移&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/DDoSolitary/LxRunOffline/releases&quot;&gt;https://github.com/DDoSolitary/LxRunOffline/releases&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;icacls D:\Ubuntu.windows /grant &amp;quot;lijinzhou:(OI)(CI)(F)&amp;quot;
+.\LxRunOffline.exe list
+.\LxRunOffline.exe move -n Ubuntu -d D:\Ubuntu.windows\installed\Ubuntu
+.\LxRunOffline.exe get-dir -n Ubuntu&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：
+&lt;a href=&quot;https://blog.csdn.net/u013032345/article/details/103960743&quot;&gt;https://blog.csdn.net/u013032345/article/details/103960743&lt;/a&gt;
+&lt;a href=&quot;https://blog.csdn.net/starhosea/article/details/82624629&quot;&gt;https://blog.csdn.net/starhosea/article/details/82624629&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;2、本地环境配置&lt;/h2&gt;
+&lt;h3&gt;（1）npm安装&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.npmjs.com/get-npm&quot;&gt;https://www.npmjs.com/get-npm&lt;/a&gt;
+&lt;a href=&quot;https://developer.aliyun.com/mirror/NPM?from=tnpm&quot;&gt;https://developer.aliyun.com/mirror/NPM?from=tnpm&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;（2）安装 Gatsby 命令行工具&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;cnpm install -g gatsby-cli
+gatsby -v&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/&quot;&gt;https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/&lt;/a&gt;
+&lt;a href=&quot;https://cloud.tencent.com/developer/article/1602246&quot;&gt;https://cloud.tencent.com/developer/article/1602246&lt;/a&gt;
+&lt;a href=&quot;https://www.gatsbyjs.com/docs/gatsby-on-linux/&quot;&gt;https://www.gatsbyjs.com/docs/gatsby-on-linux/&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;3、安装Leonids&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install autoconf automake libtool
+sudo apt-get install libpng-dev
+sudo apt-get install libtiff5-dev libtiff5 libjbig-dev
+sudo apt-get install make
+
+tar zxvf nasm-2.14.02.tar.gz
+./configure
+make
+sudo make install
+whereis nasm
+
+
+gatsby new my-blog https://github.com/renyuanz/leonids
+cd my-blog
+gatsby develop
+gatsby build
+gatsby serve&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：
+&lt;a href=&quot;https://github.com/renyuanz/leonids&quot;&gt;https://github.com/renyuanz/leonids&lt;/a&gt;
+&lt;a href=&quot;https://www.cnblogs.com/chengmf/p/12526821.html&quot;&gt;https://www.cnblogs.com/chengmf/p/12526821.html&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Syntax Highlighting Post]]></title><description><![CDATA[Syntax highlighting is a feature that displays source code, in different colors and fonts according to the category of terms. This feature…]]></description><link>https://renyuanz.github.io/leonids/code-highlighting-post/</link><guid isPermaLink="false">https://renyuanz.github.io/leonids/code-highlighting-post/</guid><pubDate>Mon, 27 Jul 2020 07:26:03 GMT</pubDate><content:encoded>&lt;p&gt;Syntax highlighting is a feature that displays source code, in different colors and fonts according to the category of terms. This feature facilitates writing in a structured language such as a programming language or a markup language as both structures and syntax errors are visually distinct. Highlighting does not affect the meaning of the text itself; it is intended only for human readers.&lt;sup id=&quot;fnref-1&quot;&gt;&lt;a href=&quot;#fn-1&quot; class=&quot;footnote-ref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;h3&gt;Fenced Code Blocks&lt;/h3&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;css&quot;&gt;&lt;pre class=&quot;language-css&quot;&gt;&lt;code class=&quot;language-css&quot;&gt;&lt;span class=&quot;token selector&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token property&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; left&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
