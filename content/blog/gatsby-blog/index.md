@@ -23,6 +23,7 @@ wsl --set-default-version 2
 
 参考：
 https://docs.microsoft.com/zh-cn/windows/wsl/install-win10
+
 https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions
 
 ### （2）WSL迁移（可选）
@@ -39,6 +40,7 @@ icacls D:\Ubuntu.windows /grant "admin:(OI)(CI)(F)"
 
 参考：
 https://blog.csdn.net/u013032345/article/details/103960743
+
 https://blog.csdn.net/starhosea/article/details/82624629
 
 ## 2、npm和Gatsby安装
@@ -50,7 +52,9 @@ nvm --version
 
 参考：
 https://www.cnblogs.com/zhenqichai/p/npm-eacces-permission-error-fix.html
+
 https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+
 https://github.com/nvm-sh/nvm
 
 ### （2）node安装
@@ -79,7 +83,9 @@ gatsby -v
 ```
 
 参考：https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/
+
 https://cloud.tencent.com/developer/article/1602246
+
 https://www.gatsbyjs.com/docs/gatsby-on-linux/
 
 # 二、安装Leonids
@@ -114,6 +120,7 @@ gatsby serve
 
 参考：
 https://www.gatsbyjs.com/docs/quick-start/
+
 https://github.com/renyuanz/leonids
 
 
@@ -155,7 +162,9 @@ package.json文件配置：
 
 参考：
 https://zhuanlan.zhihu.com/p/101565299?utm_source=zhihu
+
 https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/
+
 https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages
 
 ## 4、配置推送源码
