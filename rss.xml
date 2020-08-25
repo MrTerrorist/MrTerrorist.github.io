@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[xhlt]]></title><description><![CDATA[A simple, fixed sidebar two columns Gatsby.js blog starter.]]></description><link>https://renyuanz.github.io/leonids</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 25 Aug 2020 13:40:14 GMT</lastBuildDate><item><title><![CDATA[通过Gatsby搭建个人博客-基于WSL 2]]></title><description><![CDATA[一、本地环境准备 1、WSL 2 （1）安装适用于 Linux 的 Windows 子系统 注意：
-1、Windows 10必须更新到版本 2004 的内部版本 19041 或更高版本
-2、必须在主板开启虚拟化支持 参考：
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[xhlt]]></title><description><![CDATA[A simple, fixed sidebar two columns Gatsby.js blog starter.]]></description><link>https://renyuanz.github.io/leonids</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 25 Aug 2020 13:50:49 GMT</lastBuildDate><item><title><![CDATA[通过Gatsby搭建个人博客-基于Leonids和WSL 2]]></title><description><![CDATA[一、本地环境准备 1、WSL 2 （1）安装适用于 Linux 的 Windows 子系统 注意：
+1、Windows 10必须更新到版本 2004 的内部版本 19041 或更高版本 2、必须在主板开启虚拟化支持 参考：
 https://docs.microsoft.com…]]></description><link>https://renyuanz.github.io/leonids/gatsby-blog/</link><guid isPermaLink="false">https://renyuanz.github.io/leonids/gatsby-blog/</guid><pubDate>Thu, 20 Aug 2020 16:56:03 GMT</pubDate><content:encoded>&lt;h1&gt;一、本地环境准备&lt;/h1&gt;
 &lt;h2&gt;1、WSL 2&lt;/h2&gt;
 &lt;h3&gt;（1）安装适用于 Linux 的 Windows 子系统&lt;/h3&gt;
@@ -10,8 +9,8 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 wsl --set-default-version 2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;注意：
-1、Windows 10必须更新到版本 2004 的内部版本 19041 或更高版本
-2、必须在主板开启虚拟化支持&lt;/p&gt;
+1、Windows 10必须更新到版本 2004 的内部版本 19041 或更高版本&lt;/p&gt;
+&lt;p&gt;2、必须在主板开启虚拟化支持&lt;/p&gt;
 &lt;p&gt;参考：
 &lt;a href=&quot;https://docs.microsoft.com/zh-cn/windows/wsl/install-win10&quot;&gt;https://docs.microsoft.com/zh-cn/windows/wsl/install-win10&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions&quot;&gt;https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions&lt;/a&gt;&lt;/p&gt;
@@ -105,7 +104,7 @@ npm install gh-pages --save-dev&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;a href=&quot;https://zhuanlan.zhihu.com/p/101565299?utm_source=zhihu&quot;&gt;https://zhuanlan.zhihu.com/p/101565299?utm_source=zhihu&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/&quot;&gt;https://kalasearch.cn/blog/gatsby-blog-setup-tutorial-with-netlify/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages&quot;&gt;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;4、配置推送源码&lt;/h2&gt;
+&lt;h2&gt;4、配置源码推送&lt;/h2&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;git remote add origin -t dev git@github.com:amdin/admin.github.io.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2&gt;5、个人域名解析，配置CNAME&lt;/h2&gt;
 &lt;p&gt;在static文件夹下创建文件CNAME，文件内容为个人主域名。&lt;/p&gt;
