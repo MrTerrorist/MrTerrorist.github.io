@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>音乐生涯个人喜好表生成器 V0.1 - @网易花钱的老大</title>
+<meta name=keywords content="音乐生涯,个人喜好表生成器,网易花钱的老大,UY114514">
+<link rel="stylesheet" href="document.css">
+</head>
+<body>
+<canvas></canvas>
+<div class="ctrl-box">
+<a class="generator-btn ui-btn" onclick="downloadImage()">生成音乐生涯个人喜好表</a>
+</div>
+<div class="search-box ui-shadow" data-show="false">
+<div class="content-box">
+<form>
+<input type="text" placeholder="输入关键词、回车查找音乐">
+</form>
+<div class="track-list"></div>
+<div class="foot">
+<a class="close ui-btn current" onclick="closeSearchBox()">取消设定</a>
+</div>
+</div>
+</div>
+<div class="output-box ui-shadow" data-show="false">
+<div class="content-box">
+<h3>生成好啦~</h3>
+<img>
+<div class="body">
+<p>在 微博、微信、企鹅 应用中，请长按图片进行保存</p>
+</div>
+<div class="foot">
+<a class="close ui-btn current" onclick="closeOutput()">关闭</a>
+</div>
+</div>
+</div>
+<footer>
+<a href="https://weibo.com/1950651501" target="_blank"><span class="__cf_email__" data-cfemail="82d5e7ebe0edc2">[email&#160;protected]</span>网易花钱的老大</a>
+<a href="https://github.com/0x01BF52" target="_blank"><span class="__cf_email__" data-cfemail="b2f5dbc6fac7d0f282ca8283f0f48780">[email&#160;protected]</span></a>
+<span>音乐数据来自于Spotify API</a></span>
+</footer>
+<script data-cfasync="false" src="email-decode.min.js"></script><script src="anime-grid.js"></script>
+</body>
+</html>
