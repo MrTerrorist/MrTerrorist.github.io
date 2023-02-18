@@ -22,20 +22,21 @@ const loadImage = (src, onOver) =>{
         Images[src] = el;
     }
 };
-const typeTexts = `入坑曲
-最爱的
-隔一段时间就想听
-MV最好看的
-对自己意义重大的
-80年代最爱
-90年代最爱
-最想去现场听的
-最想安利的
-循环最多的
-最感动的
-以前爱听现在不听的
-Live上很有气氛但平时不想听的
-和平时听歌风格相反的最梦回的`;
+const typeTexts = `入坑作
+最喜欢
+看最多次
+最想安利
+最佳剧情
+最佳画面
+最佳配乐
+最佳演出
+最治愈
+最感动
+最虐心
+最被低估
+最过誉
+最离谱
+最讨厌`;
 const types = typeTexts.trim().split(/\n+/g);
 let tracks = [];
 const generatorDefaultTracks = () =>{
@@ -61,19 +62,19 @@ canvas.height = height * scale;
 ctx.fillStyle = '#FFF';
 ctx.fillRect(0, 0, width * scale, height * scale);
 ctx.textAlign = 'left';
-ctx.font = `${7*scale}px sans - serif`;
+ctx.font = `${7*scale}px Microsoft YaHei`;
 ctx.fillStyle = '#AAA';
 ctx.textBaseline = 'middle';
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
-ctx.fillText('music-grid.0x01bf52.com · @网易花钱的老大 音乐数据来自于 Spotify API · 基于 @卜卜口 的动画生涯个人喜好表 · 禁止商业、盈利用途', 19 * scale, (height - 10) * scale);
+ctx.fillText('xhlt.fun · @xhlt  数据来自于 TMDB · 基于 @网易花钱的老大 的音乐生涯个人喜好表 · 禁止商业、盈利用途', 19 * scale, (height - 10) * scale);
 ctx.scale(scale, scale);
 ctx.translate(bodyMargin, bodyMargin + titleHeight);
-ctx.font = '16px sans-serif';
+ctx.font = '16px Microsoft YaHei';
 ctx.fillStyle = '#222';
 ctx.textAlign = 'center';
 ctx.save();
-ctx.font = 'bold 24px sans-serif';
+ctx.font = 'bold 24px Microsoft YaHei';
 ctx.fillText(GRID_NAME, contentWidth / 2, -24);
 ctx.lineWidth = 2;
 ctx.strokeStyle = '#222';
@@ -98,6 +99,7 @@ for (let x = 0; x <= col; x++) {
     ctx.stroke();
 }
 ctx.restore();
+ctx.font = 'bold 14px Microsoft YaHei';
 for (let y = 0; y < row; y++) {
     for (let x = 0; x < col; x++) {
         const top = y * rowHeight;
@@ -112,13 +114,13 @@ const APIURL = `https://api.themoviedb.org/`;
 const getCoverURLById = trackID =>`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${trackID}`;
 
 
-let currentBangumiIndex = null;
+let currentJpDramaIndex = null;
 const searchBoxEl = document.querySelector('.search-box');
 const formEl = document.querySelector('form');
 const searchInputEl = formEl[0];
-const animeListEl = document.querySelector('.track-list');
+const jpDramaListEl = document.querySelector('.track-list');
 const openSearchBox = (index) =>{
-    currentBangumiIndex = index;
+    currentJpDramaIndex = index;
     htmlEl.setAttribute('data-no-scroll', true);
     searchBoxEl.setAttribute('data-show', true);
     searchInputEl.focus();
@@ -131,28 +133,29 @@ const closeSearchBox = () =>{
 };
 const setInputText = () =>{
     const text = searchInputEl.value.trim().replace(/,/g, '');
-    setCurrentBangumi(text);
+    setCurrentJpdrama(text);
 }
-const setCurrentBangumi = async (value) =>{
-    tracks[currentBangumiIndex] = value;
+const setCurrentJpdrama = async (value) =>{
+    tracks[currentJpDramaIndex] = value;
     drawTracks();
     closeSearchBox();
 }
-animeListEl.onclick = e =>{
+jpDramaListEl.onclick = e =>{
     const id = e.target.getAttribute('data-id');
-    if (currentBangumiIndex === null) return;
-    setCurrentBangumi(id);
+    if (currentJpDramaIndex === null) return;
+    setCurrentJpdrama(id);
 };
 
 
 const searchFromAPI = async keyword =>{
-    let url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=ja-JP&page=1&include_adult=false&query=`;
+    //let url = `${APIURL}3/search/multi?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=true&region=JP&query=`;
+    let url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=true&query=`;
     if (keyword) url = url + `${encodeURIComponent(keyword)}`;
     const tracks = await get(url);
     resetTrackList(tracks.results);
 }
 const resetTrackList = tracks =>{
-    animeListEl.innerHTML = tracks.map((track, index) =>{    
+    jpDramaListEl.innerHTML = tracks.map((track, index) =>{    
         let title = typeof(track.name)=="undefined"||track.name==""?track.original_name:track.name;
         loadedTracks.set(track.poster_path, track) 
         return `<div class = "track-item" data-id = "${track.poster_path}" > <img src = "${getCoverURLById(track.poster_path)}" crossOrigin="Anonymous"> <h3> ${title} - ${track.first_air_date}</h3></div>`;
@@ -169,7 +172,7 @@ formEl.onsubmit();
 const imageWidth = colWidth - 2;
 const imageHeight = rowHeight - fontHeight;
 const canvasRatio = imageWidth / imageHeight;
-ctx.font = 'bold 32px sans-serif';
+ctx.font = 'bold 32px Microsoft YaHei';
 const drawTracks = () =>{
     for (let index in tracks) {
         const id = tracks[index];
