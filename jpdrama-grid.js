@@ -149,7 +149,7 @@ jpDramaListEl.onclick = e =>{
 
 const searchFromAPI = async keyword =>{
     //let url = `${APIURL}3/search/multi?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=true&region=JP&query=`;
-    let url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=true&query=`;
+    let url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=false&query=`;
     if (keyword) url = url + `${encodeURIComponent(keyword)}`;
     const tracks = await get(url);
     resetTrackList(tracks.results);
