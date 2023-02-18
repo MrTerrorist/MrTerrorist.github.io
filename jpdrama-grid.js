@@ -24,19 +24,19 @@ const loadImage = (src, onOver) =>{
 };
 const typeTexts = `入坑作
 最喜欢
-看最多次
+追最久
 最想安利
 最佳剧情
 最佳画面
-最佳配乐
+最佳音乐
 最佳演出
 最治愈
-最感动
 最虐心
-最被低估
+最多讨论
 最过誉
 最离谱
-最讨厌`;
+最讨厌
+最近看的`;
 const types = typeTexts.trim().split(/\n+/g);
 let tracks = [];
 const generatorDefaultTracks = () =>{
