@@ -26,6 +26,7 @@ const typeTexts = `入坑作
 最喜欢
 追最久
 最想安利
+最近看的
 最佳剧情
 最佳画面
 最佳音乐
@@ -36,7 +37,7 @@ const typeTexts = `入坑作
 最过誉
 最离谱
 最讨厌
-最近看的`;
+`;
 const types = typeTexts.trim().split(/\n+/g);
 let tracks = [];
 const generatorDefaultTracks = () =>{
