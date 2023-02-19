@@ -134,9 +134,11 @@ const closeSearchBox = () =>{
 };
 const setInputText = () =>{
     const text = searchInputEl.value.trim().replace(/,/g, '');
+    if(!text) return this.searchInputEl.focus();
     setCurrentJpdrama(text);
 }
 const setCurrentJpdrama = async (value) =>{
+    if(this.currentJpDramaIndex === null) return;
     tracks[currentJpDramaIndex] = value;
     drawTracks();
     closeSearchBox();
@@ -177,26 +179,69 @@ ctx.font = 'bold 32px Microsoft YaHei';
 const drawTracks = () =>{
     for (let index in tracks) {
         const id = tracks[index];
-        if (!id) continue;
         const x = index % col;
         const y = Math.floor(index / col);
-        loadImage(getCoverURLById(id), el =>{
-            const {naturalWidth, naturalHeight} = el;
-            const originRatio = el.naturalWidth / el.naturalHeight;
-            let sw, sh, sx, sy;
-            if (originRatio < canvasRatio) {
-                sw = naturalWidth 
-                sh = naturalWidth / imageWidth * imageHeight;
-                sx = 0 
-                sy = (naturalHeight - sh)
-            } else {
-                sh = naturalHeight 
-                sw = naturalHeight / imageHeight * imageWidth;
-                sx = (naturalWidth - sw) 
-                sy = 0
+
+        if(!id){
+            ctx.save();
+            ctx.fillStyle = '#FFF';
+            ctx.fillRect(
+                x * colWidth + 1,
+                y * rowHeight + 1, 
+                imageWidth,
+                imageHeight,
+            )
+            ctx.fillStyle = '#d3d3d3';
+            ctx.fillRect(
+                x * colWidth + 1,
+                y * rowHeight + imageHeight - 1, 
+                imageWidth,
+                2,
+            )
+            ctx.restore();
+            continue;
+        }
+
+        if(id && index == currentJpDramaIndex) {
+            if(!/.jpg$/.test(id)) {
+                ctx.save();
+                ctx.fillStyle = '#FFF';
+                ctx.fillRect(
+                    x * colWidth + 1,
+                    y * rowHeight + 1, 
+                    imageWidth,
+                    imageHeight,
+                )
+                ctx.restore();
+                ctx.fillText(
+                    id,
+                    (x + 0.5) * colWidth,
+                    (y + 0.5) * rowHeight - 4, 
+                    imageWidth - 10,
+                );
+                break;
             }
-            ctx.drawImage(el, sx, sy, sw, sh, x * colWidth + 1, y * rowHeight + 1, imageWidth, imageHeight, );
-        }) 
+            
+            loadImage(getCoverURLById(id), el =>{
+                const {naturalWidth, naturalHeight} = el;
+                const originRatio = el.naturalWidth / el.naturalHeight;
+                let sw, sh, sx, sy;
+                if (originRatio < canvasRatio) {
+                    sw = naturalWidth 
+                    sh = naturalWidth / imageWidth * imageHeight;
+                    sx = 0 
+                    sy = (naturalHeight - sh)
+                } else {
+                    sh = naturalHeight 
+                    sw = naturalHeight / imageHeight * imageWidth;
+                    sx = (naturalWidth - sw) 
+                    sy = 0
+                }
+                ctx.drawImage(el, sx, sy, sw, sh, x * colWidth + 1, y * rowHeight + 1, imageWidth, imageHeight, );
+            }) 
+        }    
+
+        
     }
 }
 const outputEl = document.querySelector('.output-box');
