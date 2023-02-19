@@ -24,13 +24,13 @@ const loadImage = (src, onOver) =>{
 };
 const typeTexts = `入坑作
 最喜欢
-追最久
-最想安利
 最近看的
+最想安利
 最佳剧情
 最佳画面
 最佳音乐
 最佳演出
+看最多遍
 最治愈
 最虐心
 最多讨论
