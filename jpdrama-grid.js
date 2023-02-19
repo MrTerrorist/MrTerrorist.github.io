@@ -1,5 +1,5 @@
 const htmlEl = document.documentElement;
-const GRID_NAME = '日剧生涯个人喜好表**需翻墙**';
+const GRID_NAME = '日剧生涯个人喜好表';
 const Caches = {};
 const get = async(url) => {
     if (Caches[url]) return Caches[url];
