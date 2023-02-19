@@ -110,7 +110,7 @@ for (let y = 0; y < row; y++) {
     }
 }
 
-const APIURL = `https://api.themoviedb.org/`;
+const APIURL = `https://api.tmdb.org/`;
 
 const getCoverURLById = trackID =>`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${trackID}`;
 
