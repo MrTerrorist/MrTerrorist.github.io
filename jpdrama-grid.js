@@ -237,7 +237,7 @@ const drawTracks = () =>{
                     sx = (naturalWidth - sw) 
                     sy = 0
                 }
-                ctx.drawImage(el, sx, sy, sw, sh, x * colWidth + 1, y * rowHeight + 1, imageWidth, imageHeight, );
+                ctx.drawImage(el, sx, sy, sw, sh, x * colWidth + 1, y * rowHeight + 1, imageWidth, imageHeight-2, );
             }) 
         }    
 
