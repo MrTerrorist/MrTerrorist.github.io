@@ -68,7 +68,7 @@ ctx.fillStyle = '#AAA';
 ctx.textBaseline = 'middle';
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
-ctx.fillText('xhlt.fun · @xhlt  数据来自于 TMDB · 基于 @网易花钱的老大 的音乐生涯个人喜好表 · 禁止商业、盈利用途', 19 * scale, (height - 10) * scale);
+ctx.fillText('jp-drama-grid.xhlt.fun · @xhlt  数据来自于 TMDB · 基于 @网易花钱的老大 的音乐生涯个人喜好表 · 禁止商业、盈利用途', 19 * scale, (height - 10) * scale);
 ctx.scale(scale, scale);
 ctx.translate(bodyMargin, bodyMargin + titleHeight);
 ctx.font = '16px Microsoft YaHei';
@@ -213,12 +213,7 @@ const drawTracks = () =>{
                     imageHeight-2,
                 )
                 ctx.restore();
-                ctx.fillText(
-                    id,
-                    (x + 0.5) * colWidth,
-                    (y + 0.5) * rowHeight - 4, 
-                    imageWidth - 10,
-                );
+                ctx.fillText(id,(x + 0.5) * colWidth,(y + 0.5) * rowHeight - 4, imageWidth - 10,);
                 break;
             }
             
