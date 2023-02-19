@@ -202,7 +202,7 @@ const drawTracks = () =>{
             continue;
         }
 
-        if(id && index == currentJpDramaIndex) {
+        if(index == currentJpDramaIndex) {
             if(!/.jpg$/.test(id)) {
                 ctx.save();
                 ctx.fillStyle = '#FFF';
@@ -210,7 +210,7 @@ const drawTracks = () =>{
                     x * colWidth + 1,
                     y * rowHeight + 1, 
                     imageWidth,
-                    imageHeight,
+                    imageHeight-2,
                 )
                 ctx.restore();
                 ctx.fillText(
