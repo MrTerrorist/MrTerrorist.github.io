@@ -151,11 +151,20 @@ jpDramaListEl.onclick = e =>{
 
 
 const searchFromAPI = async keyword =>{
-    //let url = `${APIURL}3/search/multi?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=true&region=JP&query=`;
     let url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=ja-JP&page=1&include_adult=false&query=`;
     if (keyword) url = url + `${encodeURIComponent(keyword)}`;
-    const tracks = await get(url);
-    resetTrackList(tracks.results);
+    const result_jp = await get(url);
+    let tracks = result_jp.results;
+    url = `${APIURL}3/search/tv?api_key=f359cffc48a1befc770bc2fed33cfdda&language=zh-CN&page=1&include_adult=false&query=`;
+    if (keyword) url = url + `${encodeURIComponent(keyword)}`;
+    const result_cn = await get(url);
+    const tracks_cn = result_cn.results;
+    for(let item of tracks_cn) {
+        if(!tracks.some(track => track.poster_path === item.poster_path)) {
+            tracks.push(item)
+        }
+    }
+    resetTrackList(tracks);
 }
 const resetTrackList = tracks =>{
     jpDramaListEl.innerHTML = tracks.map((track, index) =>{    
